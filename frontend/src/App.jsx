@@ -17,10 +17,12 @@ import PaymentScreen from "./screens/PaymentScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import OrderScreen from "./screens/OrderScreen";
 import ProfileScreen from "./screens/ProfileScreen";
+import AdminRoutes from "./components/AdminRoutes";
+import OrderScreenList from "./screens/OrderScreenList";
+import NotFoundScreen from "./screens/NotFoundScreen";
 
 const App = () => {
   const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
-  console.log("Stripe Publishable Key:", import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
   return (
     <Router>
@@ -51,6 +53,10 @@ const App = () => {
                 }
               />
             </Route>
+            <Route path="" element={<AdminRoutes />}>
+            <Route path="/admin/orderlist" element={<OrderScreenList />} />
+            </Route>
+            <Route path="*" element={<NotFoundScreen />} />
           </Routes>
         </main>
         <Footer />
