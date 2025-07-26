@@ -18,7 +18,9 @@ import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import OrderScreen from "./screens/OrderScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import AdminRoutes from "./components/AdminRoutes";
-import OrderScreenList from "./screens/OrderScreenList";
+import OrderListScreen from "./screens/admin/OrderListScreen";
+import ProductListScreen from "./screens/admin/ProductListScreen";
+import UserListScreen from "./screens/admin/UserListScreen";
 import NotFoundScreen from "./screens/NotFoundScreen";
 
 const App = () => {
@@ -31,7 +33,7 @@ const App = () => {
 
         <Header />
         {/* Main content area grows to fill space */}
-        <main className="flex-grow container mx-auto px-4 py-4">
+        <main className="flex-grow px-4 py-4">
           <Routes>
             <Route path="/" element={<HomeScreen />} />
             <Route path="/product/:id" element={<ProductScreen />} />
@@ -54,7 +56,9 @@ const App = () => {
               />
             </Route>
             <Route path="" element={<AdminRoutes />}>
-            <Route path="/admin/orderlist" element={<OrderScreenList />} />
+            <Route path="/admin/orderlist" element={<OrderListScreen />} />
+             <Route path="/admin/productlist" element={<ProductListScreen />} />
+              <Route path="/admin/userlist" element={<UserListScreen />} />
             </Route>
             <Route path="*" element={<NotFoundScreen />} />
           </Routes>

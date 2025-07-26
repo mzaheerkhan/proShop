@@ -1,12 +1,23 @@
 import { Link, useParams } from "react-router-dom";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { useGetOrderDetailsQuery } from "../redux/slices/orderApiSlice";
+import { useSelector } from "react-redux";
+import { useGetOrderDetailsQuery,useDeliverOrderMutation } from "../redux/slices/orderApiSlice";
 import StripeCheckout from "../components/StripeCheckout";
 
 const OrderScreen = () => {
+  const userInfo = useSelector((state)=>state.auth.userInfo)
   const { id: orderId } = useParams();
-  const { data: order, isLoading, error } = useGetOrderDetailsQuery(orderId);
+  const { data: order, isLoading, error,refetch } = useGetOrderDetailsQuery(orderId);
+  const [deliver , {isLoading:loadingDeliver}] = useDeliverOrderMutation(orderId)
+  console.log("userInfo",userInfo.userInfo)
+
+  const deliverHandler = async()=>{
+   await deliver(orderId).unwrap(); 
+    refetch();
+  }
+
+  console.log("order",order)
 
   return isLoading ? (
     <Loader />
@@ -121,6 +132,21 @@ const OrderScreen = () => {
                 <StripeCheckout order={order} />
               </div>
             )}
+             {loadingDeliver && <Loader />}
+               {userInfo &&
+                userInfo.isAdmin &&
+                order.isPaid &&
+                !order.isDelivered && (
+                  
+                    <button
+                      type='button'
+                      className='btn btn-primary'
+                      onClick={deliverHandler}
+                    >
+                      Mark As Delivered
+                    </button>
+                 
+                )}
           </div>
         </div>
       </div>

@@ -9,7 +9,7 @@ const Product = ({ product }) => {
       </Link>
       <div className="card-body px-4 pt-0 ">
         <Link to={`/product/${product._id}`}>
-          <h2 className="card-title text-base font-semibold">{product.name}</h2>
+          <h2 className="card-title text-base font-semibold truncate">{product.name}</h2>
         </Link>
         <p className="text-xl font-bold">${product.price}</p>
       </div>
