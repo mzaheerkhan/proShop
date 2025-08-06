@@ -3,8 +3,8 @@ const Product = ({ product }) => {
   return (
     <div className="card w-full bg-base-100 shadow-md hover:shadow-lg transition-shadow duration-200 my-1 rounded-box">
       <Link to={`/product/${product._id}`}>
-        <figure className="p-3">
-          <img src={product.image} alt={product.name} className="rounded" />
+        <figure className="p-3 h-[300px] flex justify-center items-center overflow-hidden">
+          <img src={product.image} alt={product.name} className="rounded object-contain w-full h-full" />
         </figure>
       </Link>
       <div className="card-body px-4 pt-0 ">

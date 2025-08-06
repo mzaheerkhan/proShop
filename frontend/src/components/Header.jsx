@@ -32,7 +32,7 @@ const Header = () => {
   return (
   
     <header className="bg-gray-800  text-white">
-      <div className="navbar px-4 py-2 max-w-7xl mx-auto">
+      <div className="navbar px-0 py-2 max-w-7xl mx-auto">
         {/* Logo & Brand */}
         <div className="navbar-start">
           <Link to="/" className="flex items-center gap-2 text-xl font-bold text-white">

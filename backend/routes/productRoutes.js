@@ -1,10 +1,20 @@
 import express from "express";
-import { getAllProducts,getProductById } from "../controllers/productsController.js";
+import { protect, admin } from "../middlewares/authMiddleware.js";
+import fileUpload from "../middlewares/fileUpload.js"
+import {
+  createProduct,
+  deleteProduct,
+  getAllProducts,
+  getProductById,
+  updateProduct,
+} from "../controllers/productsController.js";
 
 const router = express.Router();
 
-router.get("/",getAllProducts)
-router.get("/:id",getProductById)
+router.get("/", getAllProducts);
+router.get("/:id", getProductById);
+router.post("/", protect, admin, createProduct);
+router.delete("/:id", protect, admin, deleteProduct);
+router.put("/:id", protect, admin,fileUpload.single('image'), updateProduct);
 
-
-export default router
+export default router;

@@ -6,7 +6,7 @@ import { useGetOrderDetailsQuery,useDeliverOrderMutation } from "../redux/slices
 import StripeCheckout from "../components/StripeCheckout";
 
 const OrderScreen = () => {
-  const userInfo = useSelector((state)=>state.auth.userInfo)
+  const {userInfo} = useSelector((state)=>state.auth)
   const { id: orderId } = useParams();
   const { data: order, isLoading, error,refetch } = useGetOrderDetailsQuery(orderId);
   const [deliver , {isLoading:loadingDeliver}] = useDeliverOrderMutation(orderId)
