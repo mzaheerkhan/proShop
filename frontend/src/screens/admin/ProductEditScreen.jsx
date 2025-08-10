@@ -121,7 +121,7 @@ const ProductEditScreen = () => {
 
             <div className="form-control">
               <label htmlFor="image" className="label">
-                <span className="label-text">Image URL</span>
+                <span className="label-text">Image</span>
               </label>
               <input
                 id="image"

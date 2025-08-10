@@ -23,6 +23,7 @@ import ProductListScreen from "./screens/admin/ProductListScreen";
 import UserListScreen from "./screens/admin/UserListScreen";
 import NotFoundScreen from "./screens/NotFoundScreen";
 import ProductEditScreen from "./screens/admin/ProductEditScreen";
+import ProductCreateScreen from "./screens/admin/ProductCreateScreeen";
 
 const App = () => {
   const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -61,6 +62,7 @@ const App = () => {
              <Route path="/admin/productlist" element={<ProductListScreen />} />
               <Route path="/admin/userlist" element={<UserListScreen />} />
               <Route path="/admin/product/:id/edit" element={<ProductEditScreen />} />
+              <Route path="/admin/product/new" element={<ProductCreateScreen />} />
             </Route>
             <Route path="*" element={<NotFoundScreen />} />
           </Routes>

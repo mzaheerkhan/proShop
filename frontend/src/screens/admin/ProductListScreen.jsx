@@ -1,31 +1,49 @@
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import { FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import Message from '../../components/Message';
 import Loader from '../../components/Loader';
+ import Swal from "sweetalert2";
 import { toast } from 'react-toastify';
 import { useCreateProductMutation, useDeleteProductMutation, useGetProductsQuery } from '../../redux/slices/productsApiSlice';
 
 
 const ProductListScreen = () => {
+  const navigate = useNavigate()
   const { data: products, isLoading, error, refetch } = useGetProductsQuery();
   const [createProduct , {isLoading:loadingCreate}] = useCreateProductMutation()
   const [deleteProduct , {isLoading:deleteLoading}] = useDeleteProductMutation()
 
-  const createProductHandler = async()=>{
-  try {
-    await createProduct();
-    refetch()
-  } catch (error) {
-    toast.error(error?.data?.message || error?.error)
-  }
-  }
 
-  const deleteHandler = async(id) => {
-    if(  window.confirm("Are you sure to delete this products?")){
-    await deleteProduct(id)
-    refetch()
-    } 
-  };
+  // const deleteHandler = async(id) => {
+  //   if(  window.confirm("Are you sure to delete this products?")){
+  //   await deleteProduct(id)
+  //   refetch()
+  //   } 
+  // };
+
+ 
+
+const deleteHandler = async (id) => {
+  const result = await Swal.fire({
+    title: "Are you sure, you want to delet this product?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Yes, delete it!"
+  });
+
+  if (result.isConfirmed) {
+    try {
+      await deleteProduct(id).unwrap();
+      refetch();
+      Swal.fire("Deleted!", "The product has been removed.", "success");
+    } catch (err) {
+      Swal.fire("Error!", "Something went wrong while deleting.", "error");
+    }
+  }
+};
+
 
 
 
@@ -33,7 +51,7 @@ const ProductListScreen = () => {
     <div className="p-4">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Products</h1>
-        <button className="btn btn-primary" onClick={createProductHandler}>
+        <button className="btn btn-primary" onClick={()=>navigate("/admin/product/new")}>
           <FaPlus className="mr-2" /> Create Product
         </button>
       </div>

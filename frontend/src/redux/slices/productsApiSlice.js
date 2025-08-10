@@ -17,9 +17,9 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5, // Keep data for 5 seconds before refetching
     }),
     createProduct: builder.mutation({
-      query: () => ({
+      query: (data) => ({
         url: `${PRODUCTS_URL}`,
-        //body: data,
+        body: data,
         method: "POST",
       }),
       invalidatesTags: ["Products"],

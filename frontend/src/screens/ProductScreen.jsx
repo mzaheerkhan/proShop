@@ -26,9 +26,9 @@ const ProductScreen = () => {
         <>
           <Link
             to="/"
-            className="btn btn-outline btn-sm my-3"
+            className="btn btn-ghost"
           >
-            Go Back
+          ←  Go Back
           </Link>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mt-2">

@@ -25,16 +25,19 @@ const getProductById = async (req, res, next) => {
 
 //! create new Product
 const createProduct = async (req, res, next) => {
+  const {name,price,brand,category,countInStock,numReviews,description} = req.body
+   const baseUrl = `${req.protocol}://${req.get("host")}`;
+    const imagePath = req.file ? `${baseUrl}/uploads/images/${req.file.filename}` : null;
   const product = new Product({
-    name: "Sample name",
-    price: 0,
+    name,
+    price,
     user: req.user._id,
-    image: "/images/sample.jpg",
-    brand: "sample brand",
-    category: "sample category",
-    countInStock: 0,
-    numReviews: 0,
-    description: "sample description",
+    image: imagePath,
+    brand,
+    category,
+    countInStock,
+    numReviews,
+    description,
   });
   const createdProduct = await product.save();
   res.status(201).json(createdProduct);
