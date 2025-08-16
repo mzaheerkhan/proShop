@@ -1,12 +1,37 @@
 import { Link } from 'react-router-dom';
-import { FaTimes } from 'react-icons/fa';
+import { FaTimes,FaTrash } from 'react-icons/fa';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
-import {useGetOrdersQuery} from '../../redux/slices/orderApiSlice'
+import Swal from "sweetalert2";
+import {useGetOrdersQuery,useDeleteOrderMutation} from '../../redux/slices/orderApiSlice'
 
 
 const OrderListScreen = () => {
-  const { data: orders, isLoading, error } = useGetOrdersQuery();
+  const { data: orders, isLoading, error,refetch } = useGetOrdersQuery();
+
+  const [deleteOrder] = useDeleteOrderMutation();
+
+
+  const deleteHandler = async (id) => {
+      const result = await Swal.fire({
+        title: "Are you sure, you want to delet this order?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!"
+      });
+    
+      if (result.isConfirmed) {
+        try {
+           await deleteOrder(id).unwrap();
+          refetch();
+          Swal.fire("Deleted!", "The order has been removed.", "success");
+        } catch (err) {
+          Swal.fire("Error!",err?.data?.message || err.error);
+        }
+      }
+    };
 
   return (
     <div className="p-4">
@@ -53,13 +78,19 @@ const OrderListScreen = () => {
                       <FaTimes className="text-red-500" />
                     )}
                   </td>
-                  <td>
+                   <td className="flex gap-2">
                     <Link
                       to={`/order/${order._id}`}
                       className="btn btn-sm btn-outline"
                     >
                       Details
                     </Link>
+                     <button
+                          onClick={() => deleteHandler(order._id)}
+                          className="btn btn-sm btn-error text-white"
+                        >
+                          <FaTrash />
+                        </button>
                   </td>
                 </tr>
               ))}

@@ -72,6 +72,20 @@ const updateOrderToDelivered = asyncHandler(async (req, res, next) => {
 
 });
 
+//! deleteOrder
+
+const deleteOrder = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const order = await Order.findById(id);
+  if (!order) {
+    return next(new HttpError("Order not found.", 404));
+  }
+  await order.deleteOne(); 
+  return res.status(200).json({ message: "Order deleted successfully" });
+});
+
+
+
 //! getMyOrders
 const getMyOrders = asyncHandler(async (req, res, next) => {
    const myOrders = await Order.find({ user: req.user._id });
@@ -91,4 +105,5 @@ export {
   updateOrderToDelivered,
   getMyOrders,
   getOrders,
+  deleteOrder
 };

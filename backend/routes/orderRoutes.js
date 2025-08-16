@@ -6,6 +6,7 @@ import {
   updateOrderToDelivered,
   getMyOrders,
   getOrders,
+  deleteOrder
 } from "../controllers/orderController.js";
 
 import { protect,admin } from "../middlewares/authMiddleware.js";
@@ -22,5 +23,7 @@ router.put("/:id/pay", protect, updateOrderToPaid);
 // Private + Admin routes
 router.get("/", protect, admin, getOrders);
 router.put("/:id/deliver", protect, admin, updateOrderToDelivered);
+router.delete("/:id", protect, admin, deleteOrder) 
+
 
 export default router;

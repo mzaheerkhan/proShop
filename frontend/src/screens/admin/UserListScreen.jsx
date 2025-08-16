@@ -28,7 +28,7 @@ const UserListScreen = () => {
       try {
          await deleteUser(id).unwrap();
         refetch();
-        Swal.fire("Deleted!", "The product has been removed.", "success");
+        Swal.fire("Deleted!", "The order has been removed.", "success");
       } catch (err) {
         Swal.fire("Error!",err?.data?.message || err.error);
       }
