@@ -99,20 +99,64 @@ const updateUserProfile = asyncHandler(async (req, res,next ) => {
 
 });
 //! GetUsers
-const getUsers = asyncHandler(async (req, res) => {
-  res.send(" getUsers ");
+const getUsers = asyncHandler(async (req, res,next) => {
+  const users = await User.find({})
+  if(!users){
+    return next(
+      new HttpError("User not found.",404)
+    )
+
+  }
+  res.status(200).json(users)
 });
 //!DeleteUsers
-const deleteUser = asyncHandler(async (req, res) => {
-  res.send(" deleteUser  ");
+const deleteUser = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(new HttpError("User not found.", 404));
+  }
+
+  if (user.isAdmin) {
+    return next(new HttpError("Cannot delete admin.", 400));
+  }
+
+  await user.deleteOne();
+  res.status(200).json({ message: "User deleted successfully" });
 });
+
 //!GetUserById
-const getUserById = asyncHandler(async (req, res) => {
-  res.send(" getUserById  ");
+const getUserById = asyncHandler(async (req, res,next) => {
+  const user = await User.findById(req.params.id).select('-password')
+  if(!user){
+   return next(
+      new HttpError("User not found.",404)
+    )
+}
+res.status(200).json(user)
+  
 });
 //!UpdateUser
-const updateUser = asyncHandler(async (req, res) => {
-  res.send(" updateUser   ");
+const updateUser = asyncHandler(async (req, res,next) => {
+  const user = await User.findById(req.params.id)
+   if(user){
+    user.name = req.body.name || user.name,
+    user.email = req.body.email || user.email,
+    user.isAdmin = Boolean(req.body.isAdmin);
+
+    const updatedUser = await user.save()
+    res.status(201).json({
+       _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+    })
+   }else{
+     return next(
+      new HttpError("User not found.",404)
+    )
+   }
+
 });
 
 export {
