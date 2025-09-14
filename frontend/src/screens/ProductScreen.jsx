@@ -23,11 +23,6 @@ const ProductScreen = () => {
   (review) => review.user === userInfo._id
 );
 
-console.log("Has user reviewed?", hasReviewed);
-
-  console.log("userInfo",userInfo);
-  
-
   const addToCartHandler = () => {
     dispatch(addToCart({ ...product, qty }));
     navigate('/cart');
