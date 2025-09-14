@@ -1,6 +1,7 @@
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useState } from 'react';
 import { useCreatePaymentIntentMutation, usePayOrderMutation } from '../redux/slices/orderApiSlice';
+import { toast } from 'react-toastify';
 
 const StripeCheckout = ({ order }) => {
   const stripe = useStripe();
@@ -43,11 +44,10 @@ const StripeCheckout = ({ order }) => {
             email_address: order.user.email,
           },
         }).unwrap();
-
-        alert("Payment successful!");
-        window.location.reload(); // or refetch
+        toast.success("Payment successful!");
+        window.location.reload(); 
       } else {
-        alert("Payment failed.");
+        toast.error("Payment failed.");
       }
 
     } catch (err) {
@@ -60,7 +60,24 @@ const StripeCheckout = ({ order }) => {
 
   return (
     <form onSubmit={handlePayment} className="space-y-4">
-      <CardElement />
+     <CardElement
+  options={{
+    style: {
+      base: {
+        fontSize: "16px",
+        color: "#32325d",
+        "::placeholder": {
+          color: "#a0aec0",
+        },
+      },
+      invalid: {
+        color: "#e53e3e",
+      },
+    },
+  }}
+  className="w-full p-2 border rounded"
+/>
+
       <button
         type="submit"
         disabled={!stripe || loading}

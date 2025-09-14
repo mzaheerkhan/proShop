@@ -47,7 +47,7 @@ const PaymentScreen = () => {
           onChange={(e) => setPaymentMethod(e.target.value)}
           className="radio "
         />
-        <span className="label-text text-base">PayPal or Credit Card</span>
+        <span className="label-text text-base">Card payment</span>
       </label>
     </div>
 

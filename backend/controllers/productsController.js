@@ -78,3 +78,27 @@ const deleteProduct = async (req, res, next) => {
   res.status(200).json({ message: "Product Deleted Successfully." });
 };
 export { getAllProducts, getProductById, createProduct, deleteProduct,updateProduct };
+
+//! create product review
+export const createProductReview = async (req, res, next) => {
+  const { rating, comment } = req.body;
+  const product = await Product.findById(req.params.id)
+  if (!product) {
+    return next(new HttpError("product not found.", 404));
+  }
+  const alreadyReviewed = product.reviews.find((r) => r.user.toString() === req.user._id.toString())
+  if (alreadyReviewed) {
+    return next(new HttpError("Product already reviewed", 400));
+  }
+  const review = {
+    name: req.user.name,
+    rating: Number(rating), 
+    comment,
+    user: req.user._id
+  }
+  product.reviews.push(review)
+  product.numReviews = product.reviews.length
+  product.rating = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length
+  await product.save()
+  res.status(201).json({ message: "Review added" })
+}
