@@ -18,7 +18,7 @@ const ProductScreen = () => {
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
-  console.log("product``",product);
+
  const hasReviewed = product?.reviews?.some(
   (review) => review.user === userInfo._id
 );

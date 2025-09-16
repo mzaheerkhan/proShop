@@ -37,7 +37,7 @@ const Header = () => {
         <div className="navbar-start">
           <Link to="/" className="flex items-center gap-2 text-xl font-bold text-white">
             <img src={logo} alt="ProShop" className="w-8 h-8" />
-            ProShop
+            PrimeShop
           </Link>
         </div>
 

@@ -5,7 +5,7 @@ const Footer = () => {
     <footer className="bg-gray-800 ">
       <div className="container mx-auto">
         <div className="flex justify-center py-3">
-          <p className="text-center  text-white">ProShop &copy; {currentYear}</p>
+          <p className="text-center  text-white">PrimeShop &copy; {currentYear}</p>
         </div>
       </div>
     </footer>
